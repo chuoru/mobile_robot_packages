@@ -44,18 +44,18 @@ class Bicycle:
         @param dt<float>: The time step
         @return next_state<list>: The next state of the vehicle
         """
-        v = input[0]
+        v_front = input[0]
 
-        w = input[1]
+        delta = input[1]
 
-        dfdt = np.array([v * math.cos(state[2]),
-                         v * math.sin(state[2]),
-                         w,
+        dfdt = np.array([v_front * math.cos(state[2] + state[3]),
+                         v_front * math.sin(state[2] + state[3]),
+                         (v_front / self.lengh_base) * math.sin(state[3]),
                          0])
 
         next_state = state + dfdt * dt
 
-        next_state[3] = math.atan2(w * self.lengh_base, v) if v != 0 else 0
+        next_state[3] = delta
 
         return next_state
 
