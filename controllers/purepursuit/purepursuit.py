@@ -22,7 +22,7 @@ class PurePursuit:
     autonomous driving.
     @note The controller is used to follow a trajectory.
     """
-    lookahead_distance = 0.4
+    lookahead_distance = 0.5
 
     lookahead_gain = 0.0
 
@@ -89,27 +89,17 @@ class PurePursuit:
             - state[2]
         )
 
+        alpha = math.atan2(math.sin(alpha), math.cos(alpha))
+
         a = self._apply_proportional_control(
             PurePursuit.k, self.trajectory.u[0, index], self._v
         )
-
-        # if index + 1 < len(self.trajectory.x):
-        #     dudt = (self.trajectory.u[0, index + 1] -
-        #             self.trajectory.u[0, index]
-        #             ) / self.trajectory.sampling_time
 
         a = self._max_acceleration if a > self._max_acceleration else a
 
         self._v = self._v + a * self.trajectory.sampling_time
 
         w = self._v * 2.0 * alpha / lookahead_distance
-
-        dwdt = min(
-            max((w - self._w) / self.trajectory.sampling_time, -0.030), 0.033)
-
-        w = self._w + dwdt * self.trajectory.sampling_time
-
-        self._w = w
 
         return status, [self._v, w]
 
