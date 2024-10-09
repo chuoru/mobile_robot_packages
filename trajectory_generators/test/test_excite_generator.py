@@ -14,9 +14,9 @@ cycle_velocities = [
 # Define cycle-specific acceleration profiles
 cycle_accelerations = [
     [200, 400, 600, 800],   # Cycle 1
-    [3000],              # Cycle 2
-    [4000],              # Cycle 3
-    [5000]               # Cycle 4
+    [1000],              # Cycle 2
+    [2000],              # Cycle 3
+    [3000]               # Cycle 4
 ]
 
 # Parameters
