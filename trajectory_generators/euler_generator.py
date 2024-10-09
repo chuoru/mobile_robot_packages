@@ -273,7 +273,7 @@ class EulerGenerator:
                 beta / 2)
         )
 
-        lc_check = [np.linalg.norm(end - corner), 
+        lc_check = [np.linalg.norm(end - corner),
                     np.linalg.norm(corner - start)]
 
         if lc > self._lc_scale * np.min(lc_check):
@@ -376,7 +376,7 @@ class EulerGenerator:
     def _calculate_coeffient(n=50):
         """! Generate the coefficient
         @param n<int>: The number of coefficient, default is 50.
-        @return The coefficient for the Euler spiral using 
+        @return The coefficient for the Euler spiral using
         Taylor series expansion.
         """
         euler_coefficient = np.zeros((n, 2))
