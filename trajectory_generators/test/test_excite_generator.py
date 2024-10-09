@@ -1,5 +1,6 @@
 # flake8: noqa
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 # Define cycle-specific velocity profiles
@@ -19,7 +20,7 @@ cycle_accelerations = [
 ]
 
 # Parameters
-time_step = 0.01  # seconds, time resolution of the simulation
+time_step = 0.05  # seconds, time resolution of the simulation
 hold_time = 0.5  # Time to hold velocity constant before transitioning (in seconds) for cycles with holding
 num_repetitions = 3  # Number of repetitions of the 4-cycle set
 
@@ -117,6 +118,62 @@ def repeat_cycles(num_repetitions):
 
 # Generate the repeated cycles
 left_vel, right_vel, left_accel, right_accel, time = repeat_cycles(num_repetitions)
+
+L = 0.5  # Distance between wheels (in meters)
+
+# Initial pose of the robot
+x, y, theta = 0, 0, 0  # Initial (x, y, θ) in meters and radians
+
+# Function to update the robot's position based on the differential drive model
+def update_position(x, y, theta, v_left, v_right, dt, L):
+    v = (v_left + v_right) / 2  # Linear velocity
+    omega = (v_right - v_left) / L  # Angular velocity (rad/s)
+    
+    x_new = x + v * np.cos(theta) * dt  # Update x
+    y_new = y + v * np.sin(theta) * dt  # Update y
+    theta_new = theta + omega * dt  # Update theta
+    
+    return x_new, y_new, theta_new
+
+# Initialize lists to store position and orientation
+timestamps = []
+x_values = []
+y_values = []
+theta_values = []
+left_velocities = []
+right_velocities = []
+
+# Simulate the motion of the robot over time
+for i in range(len(time)):
+    # Get current velocities
+    v_left = left_vel[i] / 1000  # Convert mm/s to m/s
+    v_right = right_vel[i] / 1000  # Convert mm/s to m/s
+    
+    # Update the robot's position and orientation
+    x, y, theta = update_position(x, y, theta, v_left, v_right, time_step, L)
+    
+    # Store the data
+    timestamps.append(time[i])
+    x_values.append(x)
+    y_values.append(y)
+    theta_values.append(theta)
+    left_velocities.append(v_left)
+    right_velocities.append(v_right)
+
+# Save data to a CSV file
+data = {
+    'timestamp': timestamps,
+    'x': x_values,
+    'y': y_values,
+    'theta': theta_values,
+    'left_vel': left_velocities,
+    'right_vel': right_velocities
+}
+
+df = pd.DataFrame(data)
+df.to_csv('differential_drive_trajectory.csv', index=False)
+
+print("Data saved to 'differential_drive_trajectory.csv'.")
 
 # Plot the combined profiles
 fig, axs = plt.subplots(2, 1, figsize=(12, 8))
