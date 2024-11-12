@@ -358,6 +358,11 @@ void Global_traj_class::euler_spiral_corner_smoothing_solver() {
         {
             theta_end_local = GeneralFunctions::wrapToPi(theta_end_local);
         }
+
+        if(theta_end_local < -MathConstants::PI)
+        {
+            theta_end_local = GeneralFunctions::wrapToPi(theta_end_local);
+        }
         ////////////////////////////////
 
         double delta_phi;

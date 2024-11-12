@@ -1,4 +1,5 @@
 # flake8: noqa
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,15 +14,19 @@ cycle_velocities = [
 
 # Define cycle-specific acceleration profiles
 cycle_accelerations = [
-    [200, 400, 600, 800],   # Cycle 1
-    [1000],              # Cycle 2
-    [2000],              # Cycle 3
-    [3000]               # Cycle 4
+    [200, 400, 600],   # Cycle 1
+    [600, 800, 1000],              # Cycle 2
+    [1000, 1200, 1400],              # Cycle 3
+    [1400, 1600, 1800]               # Cycle 4
 ]
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+data_folder = os.path.join(current_directory, "data")
 
 # Parameters
 time_step = 0.05  # seconds, time resolution of the simulation
-hold_time = 0.5  # Time to hold velocity constant before transitioning (in seconds) for cycles with holding
+hold_time = 2  # Time to hold velocity constant before transitioning (in seconds) for cycles with holding
 num_repetitions = 3  # Number of repetitions of the 4-cycle set
 
 # Function to generate velocity profiles
@@ -61,7 +66,7 @@ def generate_velocity_profile(accelerations, velocities, time_step, hold_time, c
             
             # Append the values to the profiles
             velocity_profile.append(current_velocity)
-            acceleration_profile.append(accel_value if current_velocity != target_velocity else 0)
+            acceleration_profile.append(accel_value )
             time_profile.append(current_time)
             current_time += time_step
         
@@ -171,7 +176,7 @@ data = {
 }
 
 df = pd.DataFrame(data)
-df.to_csv('differential_drive_trajectory.csv', index=False)
+df.to_csv(os.path.join(data_folder, 'differential_drive_trajectory.csv'), index=False)
 
 print("Data saved to 'differential_drive_trajectory.csv'.")
 
