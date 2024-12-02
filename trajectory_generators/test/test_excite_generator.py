@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 
 # Define cycle-specific velocity profiles
 cycle_velocities = [
-    [400, -400, 500, -500, 600, -600, 800, -800],  # Cycle 1
-    [400, -400, 500, -500, 600, -600, 700, -700],  # Cycle 2
-    [430, -430, 530, -530, 630, -630, 730, -730, 800, -800],  # Cycle 3
-    [470, -470, 570, -570, 670, -670, 770, -770, 800, -800]   # Cycle 4
+    [400, -400, 500, -500, 600, -600, 800, -800, 600, -600, 500, -500, 400],  # Cycle 1
+    [400, -400, 500, -500, 600, -600, 700, -700, 600, -600, 500, -500, 400],  # Cycle 2
+    [430, -430, 530, -530, 630, -630, 730, -730, 800, -800, 730, -730, 630, -630, 530, -530, 430],  # Cycle 3
+    [470, -470, 570, -570, 670, -670, 770, -770, 800, -800, 770, -770, 670, -670, 570, -570, 470]   # Cycle 4
 ]
 
 # Define cycle-specific acceleration profiles
@@ -66,7 +66,7 @@ def generate_velocity_profile(accelerations, velocities, time_step, hold_time, c
             
             # Append the values to the profiles
             velocity_profile.append(current_velocity)
-            acceleration_profile.append(accel_value )
+            acceleration_profile.append(accel_value)
             time_profile.append(current_time)
             current_time += time_step
         
