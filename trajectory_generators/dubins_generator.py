@@ -27,7 +27,7 @@ class DubinsGenerator:
         """
         self._sampling_time = sampling_time
 
-        self._turning_radius = 1.0
+        self._turning_radius = 0.5
 
         self._max_velocity = 1.0
 
