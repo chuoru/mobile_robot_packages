@@ -15,6 +15,11 @@ import numpy as np
 
 
 class DubinsGenerator:
+    """! Dubins trajectory generator."""
+
+    # ========================================================================
+    # PUBLIC METHODS
+    # ========================================================================
     def __init__(self, sampling_time=0.05):
         """! Constructor of the class.
         @param sampling_time<float>: The time interval between two consecutive
